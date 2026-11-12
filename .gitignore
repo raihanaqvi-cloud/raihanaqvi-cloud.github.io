@@ -1,0 +1,4 @@
+# Private design handoff notes: not for the public repo
+handoff/
+.DS_Store
+.claude/
