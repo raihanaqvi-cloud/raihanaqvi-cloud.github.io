@@ -23,10 +23,10 @@
 <style>
 img{height:auto}
 /* Hero magnifying lens (mouse only) */
-.lens-wrap{position:fixed;left:0;top:0;z-index:60;width:168px;height:168px;pointer-events:none;opacity:0;transition:opacity .2s ease;will-change:transform}
+.lens-wrap{position:fixed;left:0;top:0;z-index:60;width:112px;height:112px;pointer-events:none;opacity:0;transition:opacity .2s ease;will-change:transform}
 .lens-wrap.on{opacity:1}
-.lens{position:absolute;inset:0;box-sizing:border-box;border-radius:50%;overflow:hidden;border:3px solid #16181d;background-color:#eef0ee;background-image:linear-gradient(#dde1df 1px,transparent 1px),linear-gradient(90deg,#dde1df 1px,transparent 1px);box-shadow:0 14px 34px rgba(22,24,29,.22),inset 0 0 0 1px rgba(255,255,255,.7),inset 0 -10px 24px rgba(22,24,29,.06);transition:border-color .2s ease}
-.lens-handle{position:absolute;left:calc(50% + 57px);top:calc(50% + 57px);width:46px;height:11px;border-radius:6px;background:#16181d;transform:rotate(45deg);transform-origin:0 50%;transition:background .2s ease}
+.lens{position:absolute;inset:0;box-sizing:border-box;border-radius:50%;overflow:hidden;border:2.5px solid #16181d;background-color:#eef0ee;background-image:linear-gradient(#dde1df 1px,transparent 1px),linear-gradient(90deg,#dde1df 1px,transparent 1px);box-shadow:0 14px 34px rgba(22,24,29,.22),inset 0 0 0 1px rgba(255,255,255,.7),inset 0 -10px 24px rgba(22,24,29,.06);transition:border-color .2s ease}
+.lens-handle{position:absolute;left:calc(50% + 38px);top:calc(50% + 38px);width:32px;height:8px;border-radius:4px;background:#16181d;transform:rotate(45deg);transform-origin:0 50%;transition:background .2s ease}
 .lens-wrap.hot .lens{border-color:#e0402a}
 .lens-wrap.hot .lens-handle{background:#e0402a}
 .lens-clone{position:absolute;margin:0 !important;transform-origin:0 0}
