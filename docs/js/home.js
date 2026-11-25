@@ -83,6 +83,8 @@
     lens = document.createElement('div'); lens.className = 'lens';
     var handle = document.createElement('div'); handle.className = 'lens-handle';
     clone = src.cloneNode(true); clone.classList.add('lens-clone'); clone.setAttribute('inert', '');
+    var cs = getComputedStyle(src); /* the hero inherits its type from a wrapper; the lens lives outside it */
+    ['fontFamily', 'fontSize', 'fontStretch', 'fontWeight', 'lineHeight', 'letterSpacing', 'color'].forEach(function (k) { clone.style[k] = cs[k]; });
     clone.removeAttribute('id');
     clone.querySelectorAll('[id]').forEach(function (e) { e.removeAttribute('id'); });
     lens.appendChild(clone); wrap.appendChild(lens); wrap.appendChild(handle);
