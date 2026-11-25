@@ -157,7 +157,7 @@ html.env-on .hero-in,html.env-on .hero-in *{animation-play-state:paused !importa
 @keyframes env-rise{to{transform:translateY(-56%)}}
 @keyframes env-seal{to{opacity:0;transform:scale(.5)}}
 </style>
-<script src="../../js/case-04.js" defer></script>
+<script src="../../js/case-04.js?v=202611251800" defer></script>
 </head>
 <body>
 <script>(function(){var d=document,h=d.documentElement;try{if(matchMedia('(prefers-reduced-motion: reduce)').matches||sessionStorage.getItem('rh-env'))return;sessionStorage.setItem('rh-env','1')}catch(e){return}h.classList.add('env-on');var o=d.createElement('div');o.id='env';o.setAttribute('aria-hidden','true');o.innerHTML='<div class="env"><div class="env-back"></div><div class="env-letter"><b>RAIHA AHMED</b><i></i><span>CASE FILES</span></div><div class="env-front"><svg viewBox="0 0 280 181" preserveAspectRatio="none"><path d="M1 1 L140 96 L279 1 L279 180 L1 180 Z" fill="#eef0ee" stroke="#9aa1a9" stroke-width="1.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><path d="M1 180 L118 84 M279 180 L162 84" fill="none" stroke="#c3c8c6" stroke-width="1.2" vector-effect="non-scaling-stroke"/></svg></div><div class="env-flap"></div><div class="env-seal"></div></div>';d.body.insertBefore(o,d.body.firstChild);var t;function done(){clearTimeout(t);if(o.className)return;o.className='env-out';h.classList.remove('env-on');setTimeout(function(){o.remove()},420)}t=setTimeout(done,1150);o.addEventListener('click',done);d.addEventListener('keydown',done,{once:true})})();</script>
