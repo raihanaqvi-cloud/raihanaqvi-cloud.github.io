@@ -21,29 +21,6 @@
     });
   }
 
-  /* Section index (secRef): highlight the section crossing the middle of the viewport. */
-  var idxLinks = document.querySelectorAll('[data-idx-link]');
-  function setSec(id) {
-    idxLinks.forEach(function (a) {
-      var on = a.getAttribute('data-idx-link') === id;
-      var dot = a.children[0], lbl = a.children[1];
-      a.style.color = on ? '#c2321d' : '#5f6670';
-      dot.style.borderColor = on ? '#e0402a' : '#5f6670';
-      dot.style.background = on ? '#e0402a' : 'transparent';
-      lbl.style.opacity = on ? '1' : '0';
-    });
-  }
-  if (hasIO && idxLinks.length) {
-    var cur = 'top';
-    var io3 = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting && cur !== e.target.id) { cur = e.target.id; setSec(cur); }
-      });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    document.querySelectorAll('[data-sec]').forEach(function (el) { io3.observe(el); });
-  }
-
-
   /* Subject file (subjRef): personnel card and Webtoon polaroid settle in once at 15% visible. */
   var subj = document.querySelector('[data-subj]');
   if (subj && hasIO && !reduce) {
