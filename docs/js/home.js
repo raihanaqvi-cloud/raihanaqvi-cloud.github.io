@@ -7,7 +7,7 @@
   /* Scroll reveal (fxRoot): opacity fade once, elements already in view stay visible. */
   if (hasIO && !reduce) {
     requestAnimationFrame(function () {
-      var els = document.querySelectorAll('#archive > div:first-child, #pim, #case-04, .wip-box, #method-h, .method-grid > li, #subject-h, #record-h, .rec-row, .rec-status, .ft-in');
+      var els = document.querySelectorAll('#archive > div:first-child, .case-card, #case-04, .wip-box, #method-h, .method-grid > li, #subject-h, #record-h, .rec-row, .rec-status, .ft-in');
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (e) {
           if (e.isIntersecting) { e.target.setAttribute('data-fx', 'in'); io.unobserve(e.target); }
@@ -43,18 +43,6 @@
     document.querySelectorAll('[data-sec]').forEach(function (el) { io3.observe(el); });
   }
 
-  /* PIM case tiles: hover/focus marks the tile's number as active. */
-  var cards = document.querySelectorAll('[data-card]');
-  function setActive(card) {
-    cards.forEach(function (c) {
-      var num = c.querySelector('[data-card-num]');
-      if (num) num.style.color = c === card ? '#16181d' : '#5f6670';
-    });
-  }
-  cards.forEach(function (c) {
-    c.addEventListener('mouseenter', function () { setActive(c); });
-    c.addEventListener('focus', function () { setActive(c); });
-  });
 
   /* Subject file (subjRef): personnel card and Webtoon polaroid settle in once at 15% visible. */
   var subj = document.querySelector('[data-subj]');
@@ -79,4 +67,65 @@
       io2.observe(subj);
     }
   }
+})();
+
+/* Hero magnifying lens: mouse only, off for touch and reduced motion. */
+(function () {
+  'use strict';
+  var top = document.getElementById('top');
+  if (!top || !window.matchMedia) return;
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var src = top.firstElementChild, Z = 1.75, wrap, lens, clone, x = 0, y = 0, raf = 0;
+
+  function build() {
+    wrap = document.createElement('div'); wrap.className = 'lens-wrap'; wrap.setAttribute('aria-hidden', 'true');
+    lens = document.createElement('div'); lens.className = 'lens';
+    var handle = document.createElement('div'); handle.className = 'lens-handle';
+    clone = src.cloneNode(true); clone.classList.add('lens-clone'); clone.setAttribute('inert', '');
+    clone.removeAttribute('id');
+    clone.querySelectorAll('[id]').forEach(function (e) { e.removeAttribute('id'); });
+    lens.appendChild(clone); wrap.appendChild(lens); wrap.appendChild(handle);
+    document.body.appendChild(wrap);
+  }
+  function sync() { /* keep the magnified footprints in step with the real ones */
+    var o = src.querySelectorAll('.fp'), c = clone.querySelectorAll('.fp');
+    o.forEach(function (e, i) {
+      if (!e.getAnimations || !c[i]) return;
+      var a = e.getAnimations()[0], b = c[i].getAnimations()[0];
+      if (a && b && a.currentTime != null) b.currentTime = a.currentTime;
+    });
+  }
+  function draw() {
+    raf = 0;
+    var r = src.getBoundingClientRect(), s = top.getBoundingClientRect();
+    var half = wrap.offsetWidth / 2, c = lens.clientWidth / 2, b = (lens.offsetWidth - lens.clientWidth) / 2;
+    wrap.style.transform = 'translate(' + (x - half) + 'px,' + (y - half) + 'px)';
+    clone.style.width = r.width + 'px';
+    clone.style.left = ((r.left - x) * Z + c) + 'px';
+    clone.style.top = ((r.top - y) * Z + c) + 'px';
+    clone.style.transform = 'scale(' + Z + ')';
+    lens.style.backgroundSize = (32 * Z) + 'px ' + (32 * Z) + 'px';
+    lens.style.backgroundPosition = ((s.left - x) * Z + c) + 'px ' + ((s.top - y) * Z + c) + 'px';
+    var el = document.elementFromPoint(x, y);
+    wrap.classList.toggle('hot', !!(el && el.closest && el.closest('a,button')));
+    void b;
+  }
+  function show() {
+    if (!wrap) build();
+    if (!wrap.classList.contains('on')) { wrap.classList.add('on'); top.classList.add('lens-active'); sync(); }
+    if (!raf) raf = requestAnimationFrame(draw);
+  }
+  function hide() { if (wrap) { wrap.classList.remove('on'); top.classList.remove('lens-active'); } }
+  top.addEventListener('pointermove', function (e) {
+    if (e.pointerType && e.pointerType !== 'mouse') return;
+    if (document.documentElement.classList.contains('env-on')) return;
+    x = e.clientX; y = e.clientY; show();
+  });
+  top.addEventListener('pointerleave', hide);
+  window.addEventListener('scroll', function () {
+    if (!wrap || !wrap.classList.contains('on')) return;
+    var s = top.getBoundingClientRect();
+    if (y < s.top || y > s.bottom) hide(); else if (!raf) raf = requestAnimationFrame(draw);
+  }, { passive: true });
 })();
